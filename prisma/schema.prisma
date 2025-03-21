@@ -1,0 +1,113 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum SupplierType {
+  ckd
+  local
+}
+
+enum StockType {
+  SENS
+  HERMES
+}
+
+model Sets {
+  id                  Int                @id @default(autoincrement())
+  ref1                String
+  ref2                String
+  ref3                String
+  avg_montlhy_consume Float?
+  model               String
+  description         String?
+  uc                  String?
+  rack                String?
+  components          Int
+  ComponentsToSets    ComponentsToSets[]
+  SetsToOrders        SetsToOrders[]
+  Orders              Orders[]
+}
+
+model ComponentsToSets {
+  set        Int
+  quantity   Int?
+  Sets       Sets         @relation(fields: [set], references: [id])
+  Components Components[]
+
+  @@id([set])
+}
+
+model Components {
+  id               Int                @id @default(autoincrement())
+  reference        String
+  cofor            String
+  supplier         Int
+  description      String?
+  UA               String?
+  local            String?
+  Suppliers        Suppliers          @relation(fields: [supplier], references: [id])
+  Stock            Stock[]
+  ComponentsToSets ComponentsToSets[]
+}
+
+model Suppliers {
+  id         Int          @id @default(autoincrement())
+  name       String
+  address    String?
+  phone      String?
+  type       SupplierType
+  Components Components[]
+}
+
+model SetsToOrders {
+  set      Int
+  quantity Int?
+  Sets     Sets @relation(fields: [set], references: [id])
+
+  @@id([set])
+}
+
+model Orders {
+  id          Int       @id @default(autoincrement())
+  createdAt   DateTime  @default(now())
+  dtDelivered DateTime?
+  dtDeliver   DateTime
+  delivered   Boolean   @default(false)
+  qtd         Int
+  nf_3        String?
+  nf_13       String?
+  orderedBy   Int
+  sets        Int
+  Sets        Sets      @relation(fields: [sets], references: [id])
+  Users       Users     @relation(fields: [orderedBy], references: [id])
+}
+
+model Users {
+  id        Int       @id @default(autoincrement())
+  name      String?
+  email     String?
+  Companies Companies @relation(fields: [company], references: [id])
+  Orders    Orders[]
+  company   Int
+}
+
+model Companies {
+  id      Int     @id @default(autoincrement())
+  name    String?
+  address String?
+  Users   Users[]
+}
+
+model Stock {
+  id         Int         @id @default(autoincrement())
+  quantity   Int
+  component  Int
+  type       StockType
+  updatedAt  DateTime    @updatedAt()
+  Components Components? @relation(fields: [component], references: [id])
+}
