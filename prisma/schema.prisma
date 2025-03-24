@@ -27,19 +27,18 @@ model Sets {
   description         String?
   uc                  String?
   rack                String?
-  components          Int
   ComponentsToSets    ComponentsToSets[]
   SetsToOrders        SetsToOrders[]
   Orders              Orders[]
 }
 
 model ComponentsToSets {
+  id         Int        @id @default(autoincrement())
   set        Int
   quantity   Int?
-  Sets       Sets         @relation(fields: [set], references: [id])
-  Components Components[]
-
-  @@id([set])
+  Sets       Sets       @relation(fields: [set], references: [id])
+  Components Components @relation(fields: [component], references: [id])
+  component  Int
 }
 
 model Components {

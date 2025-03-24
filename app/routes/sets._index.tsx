@@ -25,7 +25,11 @@ export type LoaderData = {
 export async function loader() {
   const sets = await db.sets.findMany({
     include: {
-      ComponentsToSets,
+      ComponentsToSets: {
+        include: {
+          Components: true,
+        },
+      },
     },
   });
   return { sets };
@@ -38,7 +42,9 @@ export default function Sets() {
       <h1>Conjuntos</h1>
       <ul>
         {sets.map((set) => (
-          <li key={set.id}>{set.description}</li>
+          <li key={set.id}>
+            <a href={`/sets/${set.id}`}>{set.description}</a>
+          </li>
         ))}
       </ul>
     </div>
