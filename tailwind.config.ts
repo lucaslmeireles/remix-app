@@ -23,6 +23,10 @@ export default {
   			sm: 'calc(var(--radius) - 4px)'
   		},
   		colors: {
+			first: "#1d2d44",
+			second: "#3e5c76",
+			third: "#f0ebd8",
+			fourth: "#f8f8f8",
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
   			card: {

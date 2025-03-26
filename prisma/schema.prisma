@@ -35,9 +35,9 @@ model Sets {
 model ComponentsToSets {
   id         Int        @id @default(autoincrement())
   set        Int
-  quantity   Int?
+  quantity   Int
   Sets       Sets       @relation(fields: [set], references: [id])
-  Components Components @relation(fields: [component], references: [id])
+  Components Components @relation(fields: [component], references: [id], onDelete: Cascade)
   component  Int
 }
 
@@ -46,7 +46,7 @@ model Components {
   reference        String
   cofor            String
   supplier         Int
-  description      String?
+  description      String
   UA               String?
   local            String?
   Suppliers        Suppliers          @relation(fields: [supplier], references: [id])
@@ -66,7 +66,7 @@ model Suppliers {
 model SetsToOrders {
   set      Int
   quantity Int?
-  Sets     Sets @relation(fields: [set], references: [id])
+  Sets     Sets @relation(fields: [set], references: [id], onDelete: Cascade)
 
   @@id([set])
 }
@@ -82,13 +82,13 @@ model Orders {
   nf_13       String?
   orderedBy   Int
   sets        Int
-  Sets        Sets      @relation(fields: [sets], references: [id])
-  Users       Users     @relation(fields: [orderedBy], references: [id])
+  Sets        Sets      @relation(fields: [sets], references: [id], onDelete: NoAction)
+  Users       Users     @relation(fields: [orderedBy], references: [id], onDelete: NoAction)
 }
 
 model Users {
   id        Int       @id @default(autoincrement())
-  name      String?
+  name      String
   email     String?
   Companies Companies @relation(fields: [company], references: [id])
   Orders    Orders[]
@@ -103,10 +103,10 @@ model Companies {
 }
 
 model Stock {
-  id         Int         @id @default(autoincrement())
+  id         Int        @id @default(autoincrement())
   quantity   Int
   component  Int
   type       StockType
-  updatedAt  DateTime    @updatedAt()
-  Components Components? @relation(fields: [component], references: [id])
+  updatedAt  DateTime   @updatedAt()
+  Components Components @relation(fields: [component], references: [id], onDelete: Cascade)
 }
