@@ -1,22 +1,10 @@
-import {
-  Package,
-  ShoppingCart,
-  Layers,
-  BarChart3,
-  Boxes,
-  Truck,
-} from "lucide-react";
+import { Package, Layers, Boxes, Truck } from "lucide-react";
 
 import { Button } from "./ui/button";
 import { Link } from "@remix-run/react";
 
 export function Header() {
   const routes = [
-    {
-      href: "/orders",
-      label: "Pedidos",
-      icon: <ShoppingCart className="h-4 w-4 mr-2" />,
-    },
     {
       href: "/components",
       label: "Componentes",
@@ -61,15 +49,6 @@ export function Header() {
             </Link>
           ))}
         </nav>
-
-        <div className="hidden md:block">
-          <Button
-            className="bg-[#f0ebd8] text-[#3e5c76] hover:text-[#1d2d44] hover:bg-[#e2dbc3] hover:font-semibold hover:shadow-md"
-            size="sm"
-          >
-            Admin
-          </Button>
-        </div>
       </div>
     </header>
   );

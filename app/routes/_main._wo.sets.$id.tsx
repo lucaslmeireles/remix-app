@@ -194,7 +194,7 @@ export default function SetId() {
       {/* Outlet for nested routes */}
       <Outlet />
 
-      {/* Actions */}
+      {/* TODO Colocat um link */}
       <div className="mt-8 flex justify-between">
         <button
           onClick={() => navigate("/sets")}

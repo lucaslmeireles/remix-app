@@ -2,7 +2,7 @@
 
 import type { Stock, Suppliers } from "@prisma/client";
 import type { LoaderFunction, MetaFunction } from "@remix-run/node";
-import { useLoaderData, useNavigate } from "@remix-run/react";
+import { Link, useLoaderData } from "@remix-run/react";
 import { db } from "utils/db.server";
 
 export const meta: MetaFunction = () => {
@@ -41,7 +41,6 @@ export const loader: LoaderFunction = async ({ params }) => {
 
 export default function Component() {
   const { component } = useLoaderData<LoaderData>();
-  const navigate = useNavigate();
 
   return (
     <div className="container max-w-6xl mx-auto px-4 py-8">
@@ -130,24 +129,23 @@ export default function Component() {
 
       {/* Actions */}
       <div className="mt-8 flex justify-between">
-        <button
-          onClick={() => navigate("/components")}
-          className="bg-slate-200 text-slate-800 hover:bg-slate-300 transition-colors px-4 py-2 rounded-md font-medium flex items-center"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5 mr-2"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path
-              fillRule="evenodd"
-              d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"
-              clipRule="evenodd"
-            />
-          </svg>
-          Voltar para Componentes
-        </button>
+        <Link to={`/components`}>
+          <button className="bg-slate-200 text-slate-800 hover:bg-slate-300 transition-colors px-4 py-2 rounded-md font-medium flex items-center">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-5 w-5 mr-2"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fillRule="evenodd"
+                d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"
+                clipRule="evenodd"
+              />
+            </svg>
+            Voltar para Componentes
+          </button>
+        </Link>
       </div>
     </div>
   );

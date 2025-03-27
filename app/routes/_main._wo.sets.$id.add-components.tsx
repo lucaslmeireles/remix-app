@@ -1,8 +1,8 @@
 import type { ActionFunction, MetaFunction } from "@remix-run/node";
 import { useActionData, useLoaderData, useParams } from "@remix-run/react";
 import { db } from "utils/db.server";
-import { Components } from "./_main.components.$id";
 import { useEffect, useState } from "react";
+import { Components } from "./_main._wo.components.$id";
 
 export const meta: MetaFunction = () => {
   return [{ title: "Adicionar TESTE" }];
@@ -21,21 +21,8 @@ export type Sets = {
 };
 
 export const loader = async ({ params }) => {
-  const sets = await db.sets.findFirst({
-    where: {
-      id: Number(params.id),
-    },
-    include: {
-      ComponentsToSets: {
-        include: {
-          Components: true,
-        },
-      },
-    },
-  });
-
   const components = await db.components.findMany();
-  return { sets, components };
+  return { components };
 };
 
 export const action: ActionFunction = async ({ request, params }) => {
@@ -72,8 +59,7 @@ export default function AddComponentToSet() {
   const params = useParams();
   const actionData = useActionData();
 
-  const { sets, components } = useLoaderData<{
-    sets: Sets;
+  const { components } = useLoaderData<{
     components: Components[];
   }>();
 
